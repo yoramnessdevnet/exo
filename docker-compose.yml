@@ -1,0 +1,55 @@
+#docker-compose version
+version: "3.9"
+
+# create service
+services:
+    # service name
+    mysqldb:
+        # image name
+        image: mysql
+        # container name
+        container_name: mysqldb
+        # environment variables
+        ports:
+            - $MYSQL_PORT:$MYSQL_PORT
+        restart: always
+        env_file:
+            - .env
+        # volumes to store data
+        volumes:
+            - ./mysql:/var/lib/mysql
+            - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+        # network to connect to
+        networks:
+            - mynetwork
+        # healthcheck to check if service is running
+        healthcheck:
+            test: "mysql -uroot -p$NODE_MYSQL_PASSWORD  -e 'show databases;'"
+            interval: 10s
+            timeout: 30s
+            start_period: 20s
+            retries: 5
+    # service name
+    app:
+        build:
+            context: .
+            dockerfile: ./app/dockerfile
+        # depends on mysqldb service
+        depends_on:
+            mysqldb:
+                #start after mysqldb healtcheck
+                condition: service_healthy
+        ports:
+            - $PORT:$PORT
+        networks:
+            - mynetwork
+        # restart policy if container stops
+        restart: always
+
+# create volume
+volumes:
+    mysql:
+
+# create network
+networks:
+    mynetwork:
