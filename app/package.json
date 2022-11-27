@@ -1,0 +1,26 @@
+{
+  "name": "exo",
+  "version": "1.0.0",
+  "description": "Node.js, REST API, Express, MySQL, Swagger",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "mysql",
+    "restapi"
+  ],
+  "author": "Y.",
+  "license": "ISC",
+  "dependencies": {
+    "and": "^0.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mysql2": "^2.3.3",
+    "swagger-ui-express": "^4.6.0"
+  }
+}
